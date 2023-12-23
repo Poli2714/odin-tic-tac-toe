@@ -9,3 +9,57 @@ html {
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 16px;
 }
+
+body {
+  background-color: #9d8189;
+}
+
+button {
+  appearance: none;
+  background-color: inherit;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.container {
+  display: grid;
+  grid-template-rows: 1fr max-content;
+  min-height: 100vh;
+}
+
+.game-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  place-self: center;
+}
+
+.tic-tac-toe {
+  background-color: #ffcdb2;
+  border-radius: 10px;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  padding: 1.5rem;
+
+  & > div {
+    background-color: #b56576;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+    width: 150px;
+  }
+}
+
+.btn {
+  align-self: center;
+  background-color: #e56b6f;
+  border-radius: 10px;
+  color: #edede9;
+  padding: 0.75rem 3rem;
+}
