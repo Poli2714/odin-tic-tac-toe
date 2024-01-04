@@ -5,26 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tic Tac Toe</title>
     <link rel="stylesheet" type="text/css" href="./style.css" />
-    <script src="./script.js" defer></script>
+    <script type="module" src="./script.js" defer></script>
   </head>
   <body>
     <div class="container">
       <main class="game-wrapper">
-        <div class="tic-tac-toe">
-          <div>
-            <img src="./assets/x.png" alt="letter x" width="120" />
+        <div>
+          <p class="result"></p>
+          <div class="difficulty">
+            <label for="difficulty-select">Select difficulty</label>
+            <select name="difficulty-levels" id="difficulty-select">
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+              <option value="impossible">Impossible</option>
+            </select>
           </div>
-          <div>
-            <img src="./assets/cicle.png" alt="letter o" width="120" />
-          </div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
         </div>
+        <div class="tic-tac-toe"></div>
         <button class="btn">New Game</button>
       </main>
       <div class="attribution">

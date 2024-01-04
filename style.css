@@ -34,6 +34,15 @@ button {
   flex-direction: column;
   gap: 2rem;
   place-self: center;
+
+  & > div:first-child {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.difficulty {
+  margin-left: auto;
 }
 
 .tic-tac-toe {
@@ -45,15 +54,42 @@ button {
   grid-template-rows: repeat(3, 1fr);
   padding: 1.5rem;
 
-  & > div {
+  .cell-btn {
     background-color: #b56576;
     border-radius: 10px;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     height: 150px;
+    position: relative;
     width: 150px;
   }
+}
+
+.line-one,
+.line-two {
+  background-color: #333;
+  border-radius: 20px;
+  height: 1.5rem;
+  position: absolute;
+  width: 80%;
+}
+
+.line-one {
+  rotate: 45deg;
+}
+
+.line-two {
+  rotate: 135deg;
+}
+
+.circle {
+  border: solid 1.5rem #333;
+  border-radius: 50%;
+  height: 75%;
+  width: 75%;
 }
 
 .btn {
