@@ -88,6 +88,7 @@ button {
 .cell-btn {
   background-color: hsl(244, 100%, 83%);
   border-radius: 10px;
+  box-shadow: 0 5px 30px 3px hsl(258, 86%, 34%, 0.2);
 
   display: flex;
   align-items: center;
@@ -131,6 +132,7 @@ button {
   align-self: center;
   background-color: hsl(263, 60%, 48%);
   border-radius: 10px;
+  box-shadow: 0 5px 30px 3px hsl(258, 86%, 34%, 0.2);
   color: #edede9;
   font-weight: 600;
   padding: 0.75rem 3rem;
