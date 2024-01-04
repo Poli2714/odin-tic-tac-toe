@@ -12,65 +12,25 @@ const Cell = function (indexNum) {
   return { addValue, getValue, getIndex, isAvailable };
 };
 
-const GameBoard = (function (rows = 3, columns = 3) {
+const GameBoard = (function () {
+  const rows = 3;
+  const columns = 3;
   const gameBoard = [];
   let index = 0;
-
-  const cell = num => Cell(num);
 
   for (let i = 0; i < rows; i++) {
     gameBoard[i] = [];
     for (let j = 0; j < columns; j++) {
-      gameBoard[i].push(cell(++index));
+      gameBoard[i].push(Cell(++index));
     }
   }
 
   const getGameBoard = () => gameBoard;
 
-  const getAvailableCells = () =>
-    gameBoard.flat().filter(cell => cell.getValue() === '');
-
   const printBoard = () =>
     gameBoard.map(row => row.map(cell => cell.getValue()));
 
-  const checkRows = activePlayerMark =>
-    gameBoard.some(row =>
-      row.every(cell => cell.getValue() === activePlayerMark)
-    );
-
-  const checkColumns = activePlayerMark =>
-    gameBoard.some((row, i, currentBoard) =>
-      row.every((_, j) => currentBoard[j][i].getValue() === activePlayerMark)
-    );
-
-  const checkDioganals = activePlayerMark => {
-    return gameBoard.some((row, i, currentBoard) => {
-      if (i === 0)
-        return row.every(
-          (_, j) => currentBoard[j][j].getValue() === activePlayerMark
-        );
-      if (i === 2) {
-        let n = i;
-        return row.every(
-          (_, j) => currentBoard[j][n--].getValue() === activePlayerMark
-        );
-      }
-    });
-  };
-
-  const clearGameBoard = () => {
-    gameBoard.forEach(row => row.forEach(cell => cell.addValue('')));
-  };
-
-  return {
-    getGameBoard,
-    getAvailableCells,
-    printBoard,
-    checkRows,
-    checkColumns,
-    checkDioganals,
-    clearGameBoard,
-  };
+  return { getGameBoard, printBoard };
 })();
 
 const GameController = (function (
@@ -92,20 +52,35 @@ const GameController = (function (
   const switchPlayer = () =>
     (activePlayer = activePlayer === players[0] ? players[1] : players[0]);
 
-  const getCurrentGameBoard = () => GameBoard.getGameBoard();
-
-  const getAvailableCells = () => GameBoard.getAvailableCells();
-
-  const clearGameBoard = () => GameBoard.clearGameBoard();
+  const getAvailableCells = () =>
+    GameBoard.getGameBoard()
+      .flat()
+      .filter(cell => cell.getValue() === '');
 
   const checkRows = (activePlayerMark = getActivePlayer().mark) =>
-    GameBoard.checkRows(activePlayerMark);
+    GameBoard.getGameBoard().some(row =>
+      row.every(cell => cell.getValue() === activePlayerMark)
+    );
 
   const checkColumns = (activePlayerMark = getActivePlayer().mark) =>
-    GameBoard.checkColumns(activePlayerMark);
+    GameBoard.getGameBoard().some((row, i, currentBoard) =>
+      row.every((_, j) => currentBoard[j][i].getValue() === activePlayerMark)
+    );
 
-  const checkDioganals = (activePlayerMark = getActivePlayer().mark) =>
-    GameBoard.checkDioganals(activePlayerMark);
+  const checkDioganals = (activePlayerMark = getActivePlayer().mark) => {
+    return GameBoard.getGameBoard().some((row, i, currentBoard) => {
+      if (i === 0)
+        return row.every(
+          (_, j) => currentBoard[j][j].getValue() === activePlayerMark
+        );
+      if (i === 2) {
+        let n = i;
+        return row.every(
+          (_, j) => currentBoard[j][n--].getValue() === activePlayerMark
+        );
+      }
+    });
+  };
 
   const isWinning = (activePlayerMark = getActivePlayer().mark) =>
     checkRows(activePlayerMark) ||
@@ -114,9 +89,11 @@ const GameController = (function (
 
   const isDraw = () => getAvailableCells().length === 0;
 
-  const resetActivePlayer = () => {
+  const clearGameBoard = () => {
+    GameBoard.getGameBoard().forEach(row =>
+      row.forEach(cell => cell.addValue(''))
+    );
     activePlayer = players[0];
-    return activePlayer;
   };
 
   const minimax = function (gameBoard, depth, isMaximizingPlayer) {
@@ -164,11 +141,11 @@ const GameController = (function (
       else if (mode === 'hard') depth = 4;
       else depth = getAvailableCells().length;
 
-      getCurrentGameBoard().forEach((row, i) =>
+      GameBoard.getGameBoard().forEach((row, i) =>
         row.forEach((cell, j) => {
           if (cell.isAvailable()) {
             cell.addValue('O');
-            let score = minimax(getCurrentGameBoard(), depth - 1, false);
+            let score = minimax(GameBoard.getGameBoard(), depth - 1, false);
             cell.addValue('');
             if (score >= bestScore) {
               bestScore = score;
@@ -178,7 +155,7 @@ const GameController = (function (
         })
       );
       if (move !== undefined) {
-        getCurrentGameBoard()[move.i][move.j].addValue('O');
+        GameBoard.getGameBoard()[move.i][move.j].addValue('O');
       }
     } else {
       const availableCells = getAvailableCells();
@@ -193,7 +170,6 @@ const GameController = (function (
     getAvailableCells,
     isWinning,
     isDraw,
-    resetActivePlayer,
     clearGameBoard,
     bestAIMove,
   };
@@ -209,14 +185,12 @@ const DisplayController = (function () {
 
     clearDisplay(gameContainer);
     GameController.clearGameBoard();
-    GameController.resetActivePlayer();
     updateDisplay(gameContainer);
   });
 
   newGameBtn.addEventListener('click', () => {
     clearDisplay(gameContainer);
     GameController.clearGameBoard();
-    GameController.resetActivePlayer();
     updateDisplay(gameContainer);
     updateGameResult();
   });
