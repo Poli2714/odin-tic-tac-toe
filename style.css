@@ -140,3 +140,17 @@ button {
     background-color: hsl(263, 60%, 48%, 0.5);
   }
 }
+
+.attribution {
+  color: hsl(244, 100%, 83%);
+  justify-self: center;
+
+  & a:link {
+    font-weight: 600;
+  }
+
+  & a:is(:visited, :active) {
+    color: #240046;
+    font-weight: 600;
+  }
+}
