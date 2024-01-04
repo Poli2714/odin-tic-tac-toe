@@ -13,12 +13,6 @@ html {
 body {
   background-image: linear-gradient(
     90deg,
-    hsla(205, 46%, 10%, 1) 0%,
-    hsla(191, 28%, 23%, 1) 50%,
-    hsla(207, 41%, 27%, 1) 100%
-  );
-  background-image: linear-gradient(
-    90deg,
     hsl(263, 60%, 48%) 0%,
     hsl(213, 64%, 59%) 100%
   );
@@ -33,6 +27,13 @@ button {
   font-size: inherit;
 }
 
+select,
+button {
+  &:is(:focus-visible) {
+    outline: 2px solid #edede9;
+  }
+}
+
 .container {
   display: grid;
   grid-template-rows: 1fr max-content;
@@ -44,15 +45,36 @@ button {
   flex-direction: column;
   gap: 2rem;
   place-self: center;
+}
 
-  & > div:first-child {
-    display: flex;
-    align-items: center;
-  }
+.result {
+  color: hsl(244, 100%, 83%);
+  font-size: 3.5rem;
+  font-weight: 600;
+  text-align: center;
 }
 
 .difficulty {
-  margin-left: auto;
+  font-size: 1.25rem;
+
+  & label {
+    color: hsl(244, 100%, 83%);
+    font-weight: 500;
+    margin-right: 0.5rem;
+  }
+
+  & select {
+    background-color: hsl(244, 100%, 83%);
+    border: none;
+    border-radius: 5px;
+    color: hsl(263, 60%, 48%);
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    height: 1.75rem;
+    padding-left: 0.5rem;
+    width: 12ch;
+  }
 }
 
 .tic-tac-toe {
@@ -110,8 +132,9 @@ button {
   background-color: hsl(263, 60%, 48%);
   border-radius: 10px;
   color: #edede9;
+  font-weight: 600;
   padding: 0.75rem 3rem;
-  transition: background-color 300ms ease;
+  transition: background-color 300ms ease, outline 300ms ease;
 
   &:hover {
     background-color: hsl(263, 60%, 48%, 0.5);

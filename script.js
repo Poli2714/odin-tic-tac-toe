@@ -204,23 +204,6 @@ const DisplayController = (function () {
   const newGameBtn = document.querySelector('.btn');
   const selectEl = document.querySelector('[name="difficulty-levels');
 
-  selectEl.addEventListener('change', () => {
-    if (GameController.isWinning() || GameController.isDraw()) return;
-
-    clearDisplay(gameContainer);
-    GameController.clearGameBoard();
-    GameController.resetActivePlayer();
-    updateDisplay(gameContainer);
-  });
-
-  newGameBtn.addEventListener('click', () => {
-    clearDisplay(gameContainer);
-    GameController.clearGameBoard();
-    GameController.resetActivePlayer();
-    updateDisplay(gameContainer);
-    updateGameResult();
-  });
-
   const createDomBoard = () => {
     return GameBoard.getGameBoard().forEach(row =>
       row.forEach(cell => {
@@ -261,7 +244,10 @@ const DisplayController = (function () {
     let resultMessage = '';
 
     if (GameController.isWinning())
-      resultMessage = `${GameController.getActivePlayer().name} wins!`;
+      resultMessage =
+        GameController.getActivePlayer().name === 'Computer'
+          ? `${GameController.getActivePlayer().name} wins!`
+          : 'You win!';
     else if (GameController.isDraw()) resultMessage = 'Tie!';
 
     resultParagraph.innerHTML = resultMessage;
@@ -305,11 +291,21 @@ const DisplayController = (function () {
     }
   };
 
+  const resetGame = () => {
+    clearDisplay(gameContainer);
+    GameController.clearGameBoard();
+    GameController.resetActivePlayer();
+    updateDisplay(gameContainer);
+    updateGameResult();
+  };
+
   const getValue = element => element.value;
+
+  selectEl.addEventListener('change', resetGame);
+  newGameBtn.addEventListener('click', resetGame);
 
   return {
     createDomBoard,
-    updateDisplay,
   };
 })();
 
